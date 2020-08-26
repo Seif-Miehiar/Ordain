@@ -1,1 +1,4 @@
 node_modules
+
+# saving the credientials in .env file and not comiiting or pushing the file to github
+.env

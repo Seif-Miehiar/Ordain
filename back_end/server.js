@@ -2,38 +2,30 @@ const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const DB_CONNECTION = require('./config/db.config');
+require('dotenv').config();
+
+// Setup server port
+const PORT = process.env.PORT || 5000;
 
 var app = express();
 
 app.use(cors());
+
+// parse requests of content-type - application/json
 app.use(bodyParser.json())
 
-const PORT = process.env.PORT || 5000;
+// parse requests of content-type: application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 app.get('/', (req, res) => {
-    res.send('Hello Wolrd!!!!!')
+    res.json({ message: "Welcome to Fixi application." });
 })
-
-// Creating the credientials to connect to our DB. 
-var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'demodb'
-})
-
-// Connecting to our Db and checking errors.
-connection.connect((err) => {
-    if (!err)
-        console.log('Connection Established Successfully');
-    else
-        console.log('Connection Failed!' + JSON.stringify(err, undefined, 2));
-
-});
 
 // API to get all users in our user table from DB.
 app.get('/all-users', (req, res) => {
-    connection.query('SELECT * FROM users', (err, rows, fields) => {
+    DB_CONNECTION.query('SELECT * FROM users', (err, rows, fields) => {
         if (!err)
             res.send(rows);
         else
@@ -42,11 +34,39 @@ app.get('/all-users', (req, res) => {
 })
 
 // adding a user to database.
-// app.post('/add-new-user', (req, res) => {
-//     connection.query
-// })
+app.post('/add-new-user', (req, res) => {
+    console.log(req.body)
+    var firstName = req.body.first_name;
+    var lastName = req.body.last_name;
+    var email = req.body.email;
+    var phone = req.body.phone;
+    var password = req.body.password;
+    var active = 1;
+    var verified = 0;
+    DB_CONNECTION.query(`INSERT INTO users (
+        user_first_name,
+         user_last_name,
+          user_email,
+           user_phone_number,
+            user_password,
+             user_active,
+              user_verified) VALUES (
+                  '${firstName}',
+                   '${lastName}',
+                   '${email}',
+                   '${phone}',
+                   '${password}',
+                   '${active}',
+                   '${verified}'
+              )`, (err, result) => {
+        if (err) throw err;
+        console.log
+        console.log('1 record inserted')
+    })
+    res.send('inserted 1 :D')
+})
 
 
 app.listen(PORT, () => {
-    console.log(`App listening on ${PORT} number!`)
+    console.log(`App listening on ${PORT} number! '\n' On this link http://localhost:${PORT}`)
 })

@@ -29,3 +29,27 @@ exports.create = (req, res) => {
         } else res.send(data);
     })
 }
+
+exports.findAll = (req, res) => {
+    User.getAll((err, data) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message || "Some error occurred while retrieving customers."
+            });
+        } else res.send(data);
+    })
+}
+
+exports.check_user = (req, res) => {
+    User.findByEmail(req.params.user_email, (err, data) => {
+        if (err) {
+            if (err.kind === "Not found") {
+                res.status(404).send({
+                    message: `Not found Customer with id ${req.params.user_email}`
+                })
+            } else {
+                res.status(500).send({ message: "Error retrieving Customer with id " + req.params.user_email })
+            }
+        } else res.send(data);
+    })
+}

@@ -21,3 +21,4 @@ DB_CONNECTION.connect((err) => {
 });
 
 module.exports = DB_CONNECTION
+true

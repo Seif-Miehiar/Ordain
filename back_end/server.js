@@ -33,39 +33,6 @@ app.get('/all-users', (req, res) => {
     })
 })
 
-// adding a user to database.
-// app.post('/add-new-user', (req, res) => {
-//     console.log(req.body)
-//     var firstName = req.body.first_name;
-//     var lastName = req.body.last_name;
-//     var email = req.body.email;
-//     var phone = req.body.phone;
-//     var password = req.body.password;
-//     var active = 1;
-//     var verified = 0;
-//     DB_CONNECTION.query(`INSERT INTO users (
-//         user_first_name,
-//          user_last_name,
-//           user_email,
-//            user_phone_number,
-//             user_password,
-//              user_active,
-//               user_verified) VALUES (
-//                   '${firstName}',
-//                    '${lastName}',
-//                    '${email}',
-//                    '${phone}',
-//                    '${password}',
-//                    '${active}',
-//                    '${verified}'
-//               )`, (err, result) => {
-//         if (err) throw err;
-//         console.log
-//         console.log('1 record inserted')
-//     })
-//     res.send('inserted 1 :D')
-// })
-
 require('./routes/user.routes')(app)
 
 app.listen(PORT, () => {

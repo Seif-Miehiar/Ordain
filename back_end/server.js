@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const DB_CONNECTION = require('./config/db.config');
+const helmet = require('helmet')
 require('dotenv').config();
 
 // Setup server port
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 5000;
 var app = express();
 
 app.use(cors());
+app.use(helmet())
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json())

@@ -53,3 +53,19 @@ exports.check_user = (req, res) => {
         } else res.send(data);
     })
 }
+
+exports.findOne = (req, res) => {
+    User.findById(req.params.user_ID, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({ message: `Not found Customer with id ${req.params.user_ID}.` })
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving Customer with id " + req.params.user_ID
+                })
+            }
+        } else {
+            res.send(data);
+        }
+    })
+}

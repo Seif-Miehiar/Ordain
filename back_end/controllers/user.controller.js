@@ -54,6 +54,7 @@ exports.check_user = (req, res) => {
     })
 }
 
+// find one user
 exports.findOne = (req, res) => {
     User.findById(req.params.user_ID, (err, data) => {
         if (err) {
@@ -66,6 +67,53 @@ exports.findOne = (req, res) => {
             }
         } else {
             res.send(data);
+        }
+    })
+}
+
+// update a user
+exports.update = (req, res) => {
+    // Validate Request
+    if (!req.body) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        })
+    }
+    User.updateById(
+        req.params.user_ID,
+        new User(req.body),
+        (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.status(404).send({
+                        message: `Not found Customer with id ${req.params.user_ID}.`
+                    })
+                } else {
+                    res.status(500).send({
+                        message: "Error updating Customer with id " + req.params.user_ID
+                    })
+                }
+            } else { res.send(data) }
+        }
+    )
+}
+exports.delete = (req, res) => {
+    console.log(req.params)
+    User.remove(req.params.user_ID, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found user with id ${req.params.user_ID}`
+                })
+            } else {
+                res.status(500).send({
+                    message: "could not delete user with ID " + req.params.user_ID
+                })
+            }
+        } else {
+            res.send({
+                message: "user was deleted successfully!"
+            })
         }
     })
 }

@@ -76,6 +76,56 @@ User.findById = (userId, result) => {
     })
 }
 
-// User.updateById
+User.updateById = (id, user, result) => {
+    DB_CONNECTION.query(`UPDATE users SET 
+    user_first_name = ?,
+    user_last_name = ?,
+    user_email = ?,
+    user_phone_number = ?,
+    user_password = ?,
+    user_active = ?,
+    user_verified = ?
+    WHERE user_ID = ?`, [
+        user.user_first_name,
+        user.user_last_name,
+        user.user_email,
+        user.user_phone_number,
+        user.user_password,
+        user.user_active,
+        user.user_verified,
+        id
+    ], (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        if (!res.affectedRows) {
+            // user not found by ID.
+            result({ kind: "not_found" }, null);
+            return;
+        }
+        console.log("updated user: ", { id: id, ...user });
+        result(null, { id: id, ...user });
+    })
+}
+
+// Delete a user.
+User.remove = (id, result) => {
+    DB_CONNECTION.query("DELETE FROM users WHERE user_ID = ?", id, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        if (res.affectedRows == 0) {
+            // user with ID not found
+            result({ kind: "not_found" }, null);
+            return;
+        }
+        console.log("deleted one user with ID", id);
+        result(null, res)
+    })
+}
 
 module.exports = User;

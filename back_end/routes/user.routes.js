@@ -9,7 +9,12 @@ module.exports = app => {
 
     app.get('/check-user/:user_email', users.check_user);
 
-    //retrieve a user by ID.
+    // Retrieve a user by ID.
     app.get('/all-users/:user_ID', users.findOne);
 
+    // Update a user by ID
+    app.put('/all-users/:user_ID', users.update);
+
+    // Delete a user
+    app.delete('/all-users/:user_ID', users.delete);
 }

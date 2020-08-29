@@ -1,8 +1,8 @@
 const express = require('express');
-const cors = require('cors');
 const bodyParser = require('body-parser');
 const DB_CONNECTION = require('./config/db.config');
 const helmet = require('helmet');
+const cors = require('cors');
 require('dotenv').config();
 
 // Setup server port
@@ -24,17 +24,8 @@ app.get('/', (req, res) => {
     res.json({ message: "Welcome to Fixi application." });
 })
 
-// API to get all users in our user table from DB.
-app.get('/all-users', (req, res) => {
-    DB_CONNECTION.query('SELECT * FROM users', (err, rows, fields) => {
-        if (!err)
-            res.send(rows);
-        else
-            console.log(err);
-    })
-})
-
-require('./routes/user.routes')(app)
+require('./routes/user.routes')(app);
+require('./routes/real_estates.routes')(app);
 
 app.listen(PORT, () => {
     console.log(`App listening on ${PORT} number! '\n' On this link http://localhost:${PORT}`)

@@ -34,4 +34,29 @@ RealEstate.create = (newOne, result) => {
         result(null, { id: res.insertId, ...newOne })
     })
 }
+
+RealEstate.getAll = result => {
+    DB_CONNECTION.query('SELECT * FROM real_estates', ( err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        console.log("real estates: ", res);
+        result(null, res)
+    })
+}
+RealEstate.getByType = (type, result) => {
+    DB_CONNECTION.query(`SELECT * FROM real_estates WHERE real_estate_type = ${type}` , (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        else {
+            result(null, res);
+            return;
+        }
+    })
+}
 module.exports = RealEstate;

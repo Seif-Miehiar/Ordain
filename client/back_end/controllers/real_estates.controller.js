@@ -1,4 +1,5 @@
 const RealEstates = require('../models/real_estates.model');
+const RealEstate = require('../models/real_estates.model');
 
 // create and save a new real estate product.
 exports.create = (req, res) => {
@@ -36,4 +37,32 @@ exports.create = (req, res) => {
             })
         } else res.send(data);
     })
+
+}
+
+exports.findAll = (req, res) => {
+    RealEstate.getAll((err, data) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message || "Some error occurred while retrieving real estates."
+            });
+        }
+        else res.send(data)
+    })
+
+}
+exports.findByType = (req, res) => {
+    RealEstate.getByType(req.params.real_estate_type ,(err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+              res.status(404).send({
+                message: `Not found Customer with id ${req.params.real_estate-type}.`
+              });
+            } else {
+              res.status(500).send({
+                message: "Error retrieving Customer with id " + req.params.real_estate-type
+              });
+            }
+          } else res.send(data);
+        });
 }

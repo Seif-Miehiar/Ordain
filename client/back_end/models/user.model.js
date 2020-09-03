@@ -75,15 +75,8 @@ User.findById = (userId, result) => {
 }
 
 User.updateById = (id, user, result) => {
-    DB_CONNECTION.query(`UPDATE users SET 
-    user_first_name = ?,
-    user_last_name = ?,
-    user_email = ?,
-    user_phone_number = ?,
-    user_password = ?,
-    user_active = ?,
-    user_verified = ?
-    WHERE user_ID = ?`, [
+    console.log()
+    DB_CONNECTION.query(`UPDATE users SET ? = ?`, [
         user.user_first_name,
         user.user_last_name,
         user.user_email,

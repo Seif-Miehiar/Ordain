@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import '../styles/home.css'
+import icon from "../styles/hand.png";
 
 export default class Home extends Component {
     // constructor(props) {
@@ -9,7 +10,9 @@ export default class Home extends Component {
     render() {
         return(
             <div class="home">
-                I am the body of home
+                <div class="product-container">
+                    <img class="icon" src={icon} alt="real estates" />
+                </div>
             </div>
         )
     }

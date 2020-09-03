@@ -75,17 +75,25 @@ User.findById = (userId, result) => {
 }
 
 User.updateById = (id, user, result) => {
-    console.log()
-    DB_CONNECTION.query(`UPDATE users SET ? = ?`, [
-        user.user_first_name,
-        user.user_last_name,
-        user.user_email,
-        user.user_phone_number,
-        user.user_password,
-        user.user_active,
-        user.user_verified,
-        id
-    ], (err, res) => {
+    var arrayOfData = []
+    var arrayOfKeys = []
+    for ( key in user ) {
+        // console.log(user[key] )
+        if (user[key] !== undefined) {
+            // console.log(user.key)
+            arrayOfKeys.push(key)
+            arrayOfData.push(user[key])
+            // console.log(arrayOfData)
+        }
+    }
+    for (var i = 0; i < arrayOfKeys.length; i++) {
+        if(i === arrayOfKeys.length - 1 ){
+            arrayOfKeys[i] = arrayOfKeys[i] + " = ?";
+        }
+        arrayOfKeys[i] = arrayOfKeys[i] + " = ? ";
+    }
+    arrayOfData.push(id)
+    DB_CONNECTION.query(`UPDATE users SET ${arrayOfKeys} WHERE user_id = ${id}`, arrayOfData, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);

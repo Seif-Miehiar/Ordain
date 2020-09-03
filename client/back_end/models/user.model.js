@@ -75,8 +75,8 @@ User.findById = (userId, result) => {
 }
 
 User.updateById = (id, user, result) => {
-    var arrayOfData = []
-    var arrayOfKeys = []
+    let arrayOfData = []
+    let arrayOfKeys = []
     for ( key in user ) {
         // console.log(user[key] )
         if (user[key] !== undefined) {
@@ -86,8 +86,8 @@ User.updateById = (id, user, result) => {
             // console.log(arrayOfData)
         }
     }
-    for (var i = 0; i < arrayOfKeys.length; i++) {
-        if(i === arrayOfKeys.length - 1 ){
+    for (let i = 0; i < arrayOfKeys.length; i++) {
+        if(i === arrayOfKeys.length  ){
             arrayOfKeys[i] = arrayOfKeys[i] + " = ?";
         }
         arrayOfKeys[i] = arrayOfKeys[i] + " = ? ";

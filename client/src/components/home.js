@@ -3,9 +3,13 @@ import '../styles/home.css'
 import icon from "../styles/hand.png";
 
 export default class Home extends Component {
-    // constructor(props) {
-    //     super(props);
-    // }
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            
+        }
+    }
 
     render() {
         return(
